@@ -1,0 +1,15 @@
+{
+  "name": "shadowguard-proxy",
+  "version": "1.0.0",
+  "description": "Small proxy for forwarding chat requests to OpenRouter or Hugging Face (keeps API keys on server)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.1.4"
+  }
+}

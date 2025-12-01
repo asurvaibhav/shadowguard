@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowGuard | AI Cyber Security</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Particles background container -->
+    <div id="particles-js" aria-hidden="true"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-shield-halved"></i> ShadowGuard
+        </div>
+        
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#scan">Scan File</a></li>
+            <li><a href="#notifications">Notifications <span id="notif-badge" class="badge">0</span></a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <button id="theme-toggle" class="icon-btn" title="Switch Theme">
+                <i class="fa-solid fa-sun"></i>
+            </button>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=00f3ff&color=000" alt="User">
+            </div>
+            <div class="hamburger" id="hamburger">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>ShadowGuard</h1>
+            <h2>AI-Powered Malicious File Detector</h2>
+            <p>Secure your digital assets with next-gen heuristic analysis. Detect malware in images, videos, and folders instantly.</p>
+            <a href="#scan" class="btn glow-btn">Start Scanning</a>
+        </div>
+        <!-- Chatbot widget (floating) -->
+        <div id="chat-widget" aria-hidden="false">
+            <button id="chat-toggle" aria-label="Open chat">
+                <i class="fa-solid fa-robot"></i>
+            </button>
+
+            <div id="chat-panel" role="dialog" aria-label="AI Chatbot">
+                <div class="chat-header">
+                    <span>AI Chat</span>
+                    <div class="chat-actions">
+                        <button id="chat-settings" title="Settings"><i class="fa-solid fa-gear"></i></button>
+                        <button id="chat-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+
+                <div id="chat-messages" class="chat-messages" aria-live="polite"></div>
+
+                <form id="chat-form" class="chat-form">
+                    <input id="chat-input" type="text" placeholder="Ask the AI..." autocomplete="off" required />
+                    <button type="submit" class="btn outline-btn">Send</button>
+                </form>
+
+                <div id="chat-footer" class="chat-footer">
+                    <small>Provider: <span id="chat-provider">HuggingFace (user key)</span></small>
+                </div>
+
+                <div id="chat-settings-panel" class="chat-settings">
+                    <h4>Chat Settings</h4>
+                    <label for="chat-provider-select">Provider</label>
+                    <select id="chat-provider-select">
+                        <option value="huggingface">Hugging Face (user key)</option>
+                        <option value="openrouter">OpenRouter (OpenAI-compatible)</option>
+                        <option value="local">Local (Free, runs in browser)</option>
+                    </select>
+
+                    <div class="provider-section" id="provider-huggingface">
+                        <label for="hf-key">Hugging Face API Key</label>
+                        <input id="hf-key" type="password" placeholder="Paste your Hugging Face token" />
+                        <label for="hf-model">Model (Hugging Face)</label>
+                        <select id="hf-model">
+                            <option value="facebook/blenderbot-400M-distill">facebook/blenderbot-400M-distill</option>
+                            <option value="microsoft/DialoGPT-medium">microsoft/DialoGPT-medium</option>
+                            <option value="google/flan-t5-small">google/flan-t5-small</option>
+                            <option value="x-ai/grok-4.1-fast:free">x-ai/grok-4.1-fast:free</option>
+                        </select>
+                        <p class="muted">Get a free token at <a href="https://huggingface.co/settings/tokens" target="_blank">Hugging Face</a>.</p>
+                    </div>
+
+                    <div class="provider-section" id="provider-openrouter" style="display:none;">
+                        <label for="openrouter-key">OpenRouter / OpenAI API Key</label>
+                        <input id="openrouter-key" type="password" placeholder="Paste your OpenRouter/OpenAI-style key" />
+                        <label for="hf-model-openrouter">Model (OpenRouter/OpenAI)</label>
+                        <select id="hf-model-openrouter">
+                            <option value="openai/gpt-4o">openai/gpt-4o</option>
+                            <option value="openai/gpt-4o-mini">openai/gpt-4o-mini</option>
+                            <option value="openai/gpt-3.5-turbo">openai/gpt-3.5-turbo</option>
+                            <option value="x-ai/grok-4.1-fast:free">x-ai/grok-4.1-fast:free</option>
+                        </select>
+                        <p class="muted">OpenRouter forwards OpenAI-compatible models via <a href="https://openrouter.ai" target="_blank">openrouter.ai</a>.</p>
+                    </div>
+                    <div class="provider-section" id="provider-local" style="display:none;">
+                        <label for="local-model-select">Local Model</label>
+                        <select id="local-model-select">
+                            <option value="Xenova/distilgpt2">distilgpt2 (small)</option>
+                            <option value="Xenova/gpt2">gpt2 (small)</option>
+                            <option value="Xenova/gpt2-medium">gpt2-medium (medium)</option>
+                        </select>
+                        <p id="local-model-note" style="display:none;font-size:12px;color:#666;margin-top:8px;">Local models download weights and run in your browser — may be slow and CPU intensive.</p>
+                    </div>
+                    <div class="settings-actions">
+                        <button id="save-key" class="btn glow-btn">Save Key</button>
+                        <button id="clear-key" class="btn outline-btn">Clear Key</button>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <label><input id="chat-multiturn" type="checkbox" /> Enable multi-turn context (session)</label>
+                        <p class="muted">When enabled, the widget will include recent conversation context with each request.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="about" class="section">
+        <h2 class="section-title">Why ShadowGuard?</h2>
+        <div class="card-container">
+            <div class="card">
+                <i class="fa-solid fa-eye"></i>
+                <h3>Deep Vision</h3>
+                <p>AI that analyzes steganography in images and audio files.</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-bolt"></i>
+                <h3>Real-Time</h3>
+                <p>Microsecond processing for immediate threat detection.</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-lock"></i>
+                <h3>Zero Trust</h3>
+                <p>We assume nothing is safe until verified by our engine.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="scan" class="section">
+        <h2 class="section-title">System Scan</h2>
+        <div class="scan-container">
+            <div class="upload-area" id="drop-area">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <p>Drag & Drop files, folders, or media here</p>
+                <input type="file" id="fileInput" multiple hidden>
+                <button class="btn outline-btn" onclick="document.getElementById('fileInput').click()">Browse Files</button>
+            </div>
+
+            <div class="scan-controls">
+                <button id="scanBtn" class="btn glow-btn">Scan Now</button>
+            </div>
+
+            <div class="scan-status" id="scanStatus" style="display: none;">
+                <p id="statusText">Initializing AI Core...</p>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
+            </div>
+
+            <div class="result-card" id="resultCard" style="display: none;">
+                <div id="resultIcon"></div>
+                <h3 id="resultTitle"></h3>
+                <p id="resultDesc"></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="notifications" class="section">
+        <h2 class="section-title">Scan History</h2>
+        <div class="history-container">
+            <div class="history-header">
+                <span>File Name</span>
+                <span>Status</span>
+                <span>Time</span>
+            </div>
+            <ul id="historyList" class="history-list">
+                <li class="empty-msg">No scan history available.</li>
+            </ul>
+            <button id="clearHistory" class="btn outline-btn small">Clear History</button>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <h2 class="section-title">Contact Support</h2>
+        <form id="contactForm" class="cyber-form">
+            <div class="form-group">
+                <label>Code Name</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label>Secure Comms (Email)</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label>Transmission</label>
+                <textarea id="message" rows="4" placeholder="Message..." required></textarea>
+            </div>
+            <button type="submit" class="btn glow-btn">Send Transmission</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="neon-divider"></div>
+        <p>&copy; 2025 ShadowGuard. All Systems Operational.</p>
+    </footer>
+
+    <!-- particles.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- transformers.js for in-browser generation (free local model) -->
+    <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.1.1/dist/transformers.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
